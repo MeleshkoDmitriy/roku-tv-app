@@ -9,6 +9,9 @@ sub ShowScreen(node as Object)
         prev.visible = false
     end if
 
+    ' скрываем до добавления: иначе visible уже true и обработчики
+    ' OnVisibleChange не сработают при первом показе экрана
+    node.visible = false
     m.top.appendChild(node)
     node.visible = true
     node.setFocus(true)

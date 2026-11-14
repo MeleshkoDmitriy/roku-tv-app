@@ -8,6 +8,8 @@ function Init()
     m.itemList.observeField("itemFocused", "OnListItemFocused")
     m.itemList.observeField("itemSelected", "OnListItemSelected")
 
+    m.categoryListGainFocus = false
+
     m.top.observeField("content", "OnContentChange")
 end function
 
@@ -49,24 +51,24 @@ sub OnCategoryItemFocused(event as Object)
         m.categoryListGainFocus = false
     else
         focusedItem = event.getData() 
-        m.itemsList.jumpToItem = m.firstItemInSection[focusedItem]
+        m.itemList.jumpToItem = m.firstItemInSection[focusedItem]
     end if
 end sub
 
 sub OnJumpToItem(event as Object) 
     itemIndex = event.getData()
-    m.itemsList.jumpToItem = itemIndex 
+    m.itemList.jumpToItem = itemIndex 
 end sub
 
 sub OnContentChange()
     content = m.top.content
     InitSections(content)
-    m.itemsList.content = content
+    m.itemList.content = content
 end sub
 
 sub onVisibleChange()
     if m.top.visible = true
-        m.itemsList.setFocus(true)
+        m.itemList.setFocus(true)
     end if
 end sub
 
@@ -80,14 +82,14 @@ function OnKeyEvent(key as String, press as Boolean) as Boolean
     result = false
 
     if press
-        if key = "left" and m.itemsList.HasFocus() 
+        if key = "left" and m.itemList.HasFocus() 
             m.categoryListGainFocus = true
             m.categoryList.SetFocus(true)
-            m.itemsList.drawFocusFeedback = false
+            m.itemList.drawFocusFeedback = false
             result = true
         else if key = "right" and m.categoryList.HasFocus() 
-            m.itemsList.drawFocusFeedback = true
-            m.itemsList.SetFocus(true)
+            m.itemList.drawFocusFeedback = true
+            m.itemList.SetFocus(true)
             result = true
         end if
     end if

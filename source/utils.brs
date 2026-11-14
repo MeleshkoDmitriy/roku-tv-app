@@ -18,7 +18,7 @@ function ContentListToSimpleNode(contentList as Object, nodeType = "ContentNode"
 
         for each itemAA in contentList
             item = CreateObject("roSGNode", nodeType)
-            item.setFocus(itemAA)
+            item.setFields(itemAA)
             result.appendChild(item)
         end for
     end if

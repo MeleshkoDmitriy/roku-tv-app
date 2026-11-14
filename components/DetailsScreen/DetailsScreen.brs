@@ -31,7 +31,7 @@ sub SetDetailsContent(content)
     m.description.text = content.description
     m.poster.uri = content.hdPosterUrl
     m.title.text = content.title
-    m.release.text = Left(content.length, 10)
+    m.release.text = Left(content.releaseDate, 10)
 
     if content.length <> Invalid AND content.length <> 0
         m.time.text = getTime(content.length)
