@@ -10,20 +10,15 @@
     </interface>
     
     <children>
-        <LayoutGroup
-            layoutDirection="horiz"
-            translation="[90.0, 150.0]"
-            itemSpacing="[20]"
-        >
-
+        <Group id="columns" translation="[142, 170]">
             <LabelList
                 id="categoryList"
                 itemSpacing="[0, 10]"
                 itemSize="[360, 48]"
             />
-
             <MarkupList
                 id="itemList"
+                translation="[440, 0]"
                 itemComponentName="EpisodesListItemComponent"
                 focusBitmapUri="pkg:/images/focus.9.png"
                 focusFootprintBitmapUri="pkg:/images/focus.9.png"
@@ -31,7 +26,6 @@
                 itemSpacing="[0, 20]"
                 numRows="3"
             />
-
-        </LayoutGroup>
+        </Group>
     </children>
 </component>
