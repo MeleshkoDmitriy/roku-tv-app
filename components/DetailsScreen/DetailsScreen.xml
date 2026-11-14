@@ -15,66 +15,60 @@
 
     <children>
         <LayoutGroup
-            translation="[1166, 154]"
-            layoutDirection="horiz"
-            horizAlignment="right"
-            itemSpacing="[40]"
+            id="infoGroup"
+            translation="[128, 170]"
+            layoutDirection="vert"
+            itemSpacings="[20, 20]"
         >
-            <LayoutGroup
-                itemSpacing="[14, 10]"
-                layoutDirection="vert"
+            <Rectangle
+                width="500"
+                height="300"
+                color="0xFFFFFF"
             >
-                <Rectangle
-                    width="357"
-                    height="201"
-                    color="0xFFFFFF"
-                >
-                    <Poster 
-                        id="poster"
-                        width="357"
-                        loadWidth="357"
-                        height="201"
-                        loadHeight="201"
-                        loadDisplayMode="scaleToFit"
-                    />
-                </Rectangle>
+                <Poster 
+                    id="poster"
+                    width="500"
+                    loadWidth="500"
+                    height="300"
+                    loadHeight="300"
+                    loadDisplayMode="scaleToFit"
+                />
+            </Rectangle>
+            <LayoutGroup
+                id="textGroup"
+                layoutDirection="vert"
+                itemSpacings="[15, 15, 15, 15]"
+            >
                 <Label 
                     id="titleLabel"
-                    width="357"
+                    wrap="true"
+                    width="500"
+                />
+                <Label 
+                    id="descriptionLabel"
+                    wrap="true"
+                    maxLines="3"
+                    width="500"
+                />
+                <Label 
+                    id="releaseLabel"
                     wrap="false"
-                    horizAlign="right"
+                    width="500"
                 />
                 <Label 
                     id="timeLabel"
-                    width="357"
                     wrap="false"
-                    horizAlign="right"
                 />
             </LayoutGroup>
-            <Group>
-                <LabelList 
-                    id="buttons"
-                    numRows="3"
-                    itemSpacing="[0, 10]"
-                    itemSize="[593, 48]"
-                />
-                <LayoutGroup 
-                    itemSpacing="[40]"
-                    translation="[0, 208]"
-                >
-                    <Label 
-                        id="descriptionLabel"
-                        wrap="true"
-                        maxLines="6"
-                        width="593"
-                    />
-                    <Label 
-                        id="releaseLabel"
-                        wrap="false"
-                        width="520"
-                    />
-                </LayoutGroup>
-            </Group>
         </LayoutGroup>
+
+        <Group translation="[700, 170]">
+            <LabelList 
+                id="buttons"
+                numRows="3"
+                itemSpacing="[0, 10]"
+                itemSize="[500, 50]"
+            />
+        </Group>
     </children>
 </component>
