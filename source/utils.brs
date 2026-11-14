@@ -3,8 +3,8 @@ function GetTime(length as Integer) as String
         return "0:00"
     end if
 
-    hours = length \ 3600
-    minutes = (length MOD 3600) \ 60
+    hours = Int(length / 3600)
+    minutes = Int((length MOD 3600) / 60)
     seconds = length MOD 60
 
     if hours > 0
