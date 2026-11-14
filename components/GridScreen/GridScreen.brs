@@ -53,6 +53,6 @@ sub OnItemFocused()
     m.descriptionLabel.text = item.description
 
     if item.length <> invalid and item.length > 0
-        m.titleLabel.text += " | time:" + GetTime(item.length)
+        m.titleLabel.text += " | Duration: " + GetTime(item.length)
     end if
 end sub

@@ -54,7 +54,7 @@ sub SetDetailsContent(content)
     m.time.text = ""
 
     if content.length <> Invalid AND content.length > 0
-        m.time.text = GetTime(content.length)
+        m.time.text = "Duration: " + GetTime(content.length)
     end if
 
     if content.mediaType = "series"
