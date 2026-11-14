@@ -10,11 +10,15 @@ function Init()
 
     m.categoryListGainFocus = false
 
-    m.top.observeField("content", "OnContentChange")
 end function
 
 sub OnListItemFocused(event as Object)
     focusedItem = event.getData()
+
+    if m.itemToSection = Invalid OR focusedItem < 0 OR focusedItem >= m.itemToSection.count()
+        return
+    end if
+
     categoryIndex = m.itemToSection[focusedItem]
 
     if (categoryIndex - 1) = m.categoryList.jumpToItem
@@ -49,22 +53,61 @@ end sub
 sub OnCategoryItemFocused(event as Object) 
     if m.categoryListGainFocus = true
         m.categoryListGainFocus = false
-    else
+    else if m.firstItemInSection <> Invalid
         focusedItem = event.getData() 
-        m.itemList.jumpToItem = m.firstItemInSection[focusedItem]
+
+        if focusedItem >= 0 AND focusedItem < m.firstItemInSection.count()
+            m.itemList.jumpToItem = m.firstItemInSection[focusedItem]
+        end if
     end if
 end sub
 
 sub OnJumpToItem(event as Object) 
+    content = m.itemList.content
+
+    if content = Invalid
+        return
+    end if
+
+    childCount = content.getChildCount()
+
+    if childCount = 0
+        return
+    end if
+
     itemIndex = event.getData()
+
+    if itemIndex < 0
+        itemIndex = 0
+    else if itemIndex >= childCount
+        itemIndex = childCount - 1
+    end if
+
     m.itemList.jumpToItem = itemIndex 
 end sub
 
 sub OnContentChange()
     content = m.top.content
+
+    if content = Invalid
+        return
+    end if
+
     InitSections(content)
-    m.itemList.content = content
+    m.itemList.content = GetEpisodesNode(content)
 end sub
+
+function GetEpisodesNode(content as Object) as Object
+    node = CreateObject("roSGNode", "ContentNode")
+
+    for each season in content.getChildren(- 1, 0)
+        for each episode in season.getChildren(- 1, 0)
+            node.appendChild(episode.clone(false))
+        end for
+    end for
+
+    return node
+end function
 
 sub onVisibleChange()
     if m.top.visible = true
@@ -74,6 +117,11 @@ end sub
 
 sub OnListItemSelected(event as Object) 
     itemSelected = event.getData() 
+
+    if m.itemToSection = Invalid OR itemSelected < 0 OR itemSelected >= m.itemToSection.count()
+        return
+    end if
+
     sectionIndex = m.itemToSection[itemSelected] 
     m.top.selectedItem = [sectionIndex, itemSelected - m.firstItemInSection[sectionIndex]]
 end sub

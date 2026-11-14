@@ -2,6 +2,7 @@ sub Init()
     m.top.backgroundColor = "0x662D91"
     m.top.backgroundUri = "pkg:/images/background.jpg"
     m.loadingIndicator = m.top.FindNode("loadingIndicator")
+    m.errorLabel = m.top.FindNode("errorLabel")
 
     InitScreenStack()
     ShowGridScreen()
@@ -14,7 +15,7 @@ function OnKeyEvent(key as String, press as Boolean) as Boolean
     if press
         
         if key = "back" ' back button event listener
-            numberOfScreens = m.screensStack.count()
+            numberOfScreens = m.screenStack.count()
 
             if numberOfScreens > 1
                 CloseScreen(Invalid) ' screen stack logic

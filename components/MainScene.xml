@@ -28,6 +28,17 @@
             width="1280"
             height="720"
         />
+        <Label
+            id="errorLabel"
+            text=""
+            font="font:MediumSystemFont"
+            translation="[0, 340]"
+            width="1280"
+            wrap="true"
+            horizAlign="center"
+            vertAlign="center"
+            visible="false"
+        />
     </children>
 
 </component>

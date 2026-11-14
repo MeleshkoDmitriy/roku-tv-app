@@ -10,15 +10,22 @@ function Init()
     m.release = m.top.findNode("releaseLabel")
 end function
 
-sub OnVisibleChange()
-    if m.top.visible = true
-        m.buttons.setFocus(true)
+sub OnVisibleChange(event as Object)
+    if event.getData() <> true
+        return
     end if
+
+    if m.buttons = Invalid OR m.buttons.isInFocusChain()
+        return
+    end if
+
+    m.buttons.setFocus(true)
 end sub
 
 sub SetButtons(buttons)
     result = []
-    for each button in ["Play"]
+
+    for each button in buttons
         result.push({
             title : button
         })
@@ -28,13 +35,26 @@ sub SetButtons(buttons)
 end sub
 
 sub SetDetailsContent(content)
+    if content = Invalid
+        return
+    end if
+
     m.description.text = content.description
     m.poster.uri = content.hdPosterUrl
     m.title.text = content.title
-    m.release.text = Left(content.releaseDate, 10)
 
-    if content.length <> Invalid AND content.length <> 0
-        m.time.text = getTime(content.length)
+    releaseDate = content.releaseDate
+
+    if releaseDate <> Invalid AND releaseDate <> ""
+        m.release.text = Left(releaseDate, 10)
+    else
+        m.release.text = ""
+    end if
+
+    m.time.text = ""
+
+    if content.length <> Invalid AND content.length > 0
+        m.time.text = GetTime(content.length)
     end if
 
     if content.mediaType = "series"
@@ -47,31 +67,57 @@ end sub
 sub OnJumpToItem()
     content = m.top.content
 
-    if content <> Invalid AND m.top.jumpToItem >= 0 AND content.getChildCount() > m.top.getChildCount()
-        m.top.itemFocused = m.top.jumpToItem
+    if content = Invalid
+        return
     end if
+
+    itemIndex = m.top.jumpToItem
+
+    if itemIndex < 0 OR itemIndex >= content.getChildCount()
+        return
+    end if
+
+    m.top.itemFocused = itemIndex
 end sub
 
 sub OnItemFocusedChanged(event as Object)
-    focusedItem = event.getData()
-    content = m.top.content.getChild(focusedItem)
-    SetDetailsContent(content)
+    content = m.top.content
+
+    if content = Invalid
+        return
+    end if
+
+    item = content.getChild(event.getData())
+
+    if item = Invalid
+        return
+    end if
+
+    SetDetailsContent(item)
 end sub
 
 function OnKeyEvent(key as String, press as Boolean) as Boolean
-    result = false
-
-    if press
-        if press = "left"
-            currentItem = m.top.itemFocused
-    
-            m.top.jumpToItem = currentItem - 1
-            result = true
-        else if press = "right"
-            m.top.jumpToItem = currentItem + 1
-            result = true
-        end if
+    if NOT press
+        return false
     end if
 
-    return result
+    content = m.top.content
+
+    if content = Invalid
+        return false
+    end if
+
+    currentItem = m.top.itemFocused
+
+    if key = "left" AND currentItem > 0
+        m.top.jumpToItem = currentItem - 1
+        return true
+    end if
+
+    if key = "right" AND currentItem < content.getChildCount() - 1
+        m.top.jumpToItem = currentItem + 1
+        return true
+    end if
+
+    return false
 end function

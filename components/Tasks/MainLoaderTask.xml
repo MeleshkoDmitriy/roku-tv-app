@@ -4,5 +4,6 @@
 
     <interface>
         <field id="content" type="node" />
+        <field id="error" type="string" />
     </interface>
 </component>

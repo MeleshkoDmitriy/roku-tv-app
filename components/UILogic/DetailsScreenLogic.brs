@@ -13,14 +13,28 @@ sub OnDetailsScreenVisibilityChanged(event as Object)
     visible = event.getData()
     detailsScreen = event.getRoSGNode()
     currentScreen = GetCurrentScreen()
+
+    if currentScreen = Invalid
+        return
+    end if
+
     screenType = currentScreen.subType()
 
     if visible = false
         if screenType = "GridScreen"
-            currentScreen.jumpToItem = [m.selectedIndex[0], detailsScreen.itemFocused]
+            if m.selectedIndex <> Invalid
+                currentScreen.jumpToItem = [m.selectedIndex[0], detailsScreen.itemFocused]
+            end if
         else if screenType = "EpisodesScreen"
-            content = detailsScreen.content.getChild(detailsScreen.itemFocused)
-            currentScreen.jumpToItem = content.numEpisodes
+            content = detailsScreen.content
+
+            if content <> Invalid
+                item = content.getChild(detailsScreen.itemFocused)
+
+                if item <> Invalid AND item.numEpisodes <> Invalid
+                    currentScreen.jumpToItem = item.numEpisodes
+                end if
+            end if
         end if
     end if
 end sub

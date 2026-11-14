@@ -1,14 +1,25 @@
 function GetTime(length as Integer) as String
-    minutes = (length / 60).toStr()
-    seconds = length MOD 60
-
-    if seconds < 10
-        seconds = "0" + seconds.toStr()
-    else 
-        seconds = seconds.toStr()
+    if length <= 0
+        return "0:00"
     end if
 
-    return minutes + ":" + seconds
+    hours = length \ 3600
+    minutes = (length MOD 3600) \ 60
+    seconds = length MOD 60
+
+    if hours > 0
+        return hours.toStr() + ":" + TwoDigits(minutes) + ":" + TwoDigits(seconds)
+    end if
+
+    return minutes.toStr() + ":" + TwoDigits(seconds)
+end function
+
+function TwoDigits(value as Integer) as String
+    if value < 10
+        return "0" + value.toStr()
+    end if
+
+    return value.toStr()
 end function
 
 function ContentListToSimpleNode(contentList as Object, nodeType = "ContentNode" as String) as object

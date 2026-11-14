@@ -11,15 +11,22 @@ end sub
 
 sub OnVideoScreenClose(event as Object)
     videoScreen = event.getRoSGNode()
-    close = event.getData()
 
-    if close = true
-        CloseScreen(videoScreen)
-        screen = GetCurrentScreen()
-        screen.setFocus(true)
+    if event.getData() <> true
+        return
+    end if
 
-        if videoScreen.isSeries = false
-            screen.jumpToItem = videoScreen.lastIndex
-        end if
+    CloseScreen(videoScreen)
+
+    screen = GetCurrentScreen()
+
+    if screen = Invalid
+        return
+    end if
+
+    screen.setFocus(true)
+
+    if videoScreen.isSeries = false AND screen.subType() = "DetailsScreen" AND screen.content <> Invalid AND screen.content.isSameNode(videoScreen.content)
+        screen.jumpToItem = videoScreen.lastIndex
     end if
 end sub

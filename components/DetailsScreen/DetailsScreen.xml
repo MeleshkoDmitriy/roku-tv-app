@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component  name="DetailsScreen" 
             extends="Group" 
-            initialFocus="Buttons" 
+            initialFocus="buttons" 
             xsi:noNamesSpaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
     <script type="text/brightscript" uri="DetailsScreen.brs" />
     <script type="text/brightscript" uri="pkg:/source/utils.brs" />
