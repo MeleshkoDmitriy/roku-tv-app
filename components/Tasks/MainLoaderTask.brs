@@ -68,6 +68,14 @@ function getItemData(video as Object) as Object
 
     if video.content <> invalid
         item.length = video.content.duration
+
+        videos = video.content.videos
+
+        if videos <> invalid AND videos.count() > 0
+            stream = videos[0]
+            item.url = stream.url
+            item.streamFormat = LCase(stream.videoType)
+        end if
     end if
     
     return item

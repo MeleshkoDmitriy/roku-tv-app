@@ -1,40 +1,68 @@
-sub Init() 
+sub Init()
     m.top.width = 1280
     m.top.height = 720
     m.top.color = "0x202020ff"
 
-    m.playerTask = m.top.findNode("PlayerTask")
-    m.playerTask.observeField("state", "OnPlayerTaskStateChange")
+    m.video = m.top.findNode("video")
+    m.video.visible = false
+    m.video.observeField("state", "OnVideoStateChange")
+
+    m.currentIndex = 0
+    m.top.observeField("visible", "OnVisibleChange")
 end sub
 
-sub OnIndexChanged(event as Object)
-    content = m.top.content
-    index = event.getData()
-
-    if content <> invalid
-        m.playerTask.content = content
-        m.playerTask.startIndex = index
-        m.playerTask.control = "RUN"
+sub OnVisibleChange()
+    if m.top.visible = true
+        PlayItem(m.top.startIndex)
     end if
 end sub
 
-sub OnPlayerTaskStateChange(event as Object)
-    state = event.getData()
+sub PlayItem(index as Integer)
+    content = m.top.content
 
-    if state = "done" OR state = "stop"
+    if content = invalid OR m.top.close = true
+        return
+    end if
+
+    items = content.getChildren(-1, 0)
+
+    if index < 0 OR index >= items.count()
+        m.top.close = true
+        return
+    end if
+
+    item = items[index]
+    m.currentIndex = index
+    m.top.lastIndex = index
+
+    videoContent = CreateObject("roSGNode", "ContentNode")
+    videoContent.title = item.title
+    videoContent.url = item.url
+    videoContent.streamFormat = item.streamFormat
+    videoContent.length = item.length
+
+    m.video.content = videoContent
+    m.video.visible = true
+    m.video.setFocus(true)
+    m.video.control = "play"
+end sub
+
+sub OnVideoStateChange()
+    state = m.video.state
+
+    if state = "finished"
+        PlayItem(m.currentIndex + 1)
+    else if state = "error"
         m.top.close = true
     end if
 end sub
 
 function OnKeyEvent(key as String, press as Boolean) as Boolean
-    result = false
-
-    if press
-        if key = "back" AND m.playerTask <> Invalid
-            m.playerTask.control = "STOP"
-            result = true
-        end if
+    if press AND key = "back"
+        m.video.control = "stop"
+        m.top.close = true
+        return true
     end if
 
-    return result
+    return false
 end function
