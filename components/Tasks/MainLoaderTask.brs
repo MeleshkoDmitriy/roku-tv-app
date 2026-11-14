@@ -60,7 +60,7 @@ function BuildContentNode(json as Object) as Object
 
         if type(value) = "roArray"
             row = {
-                title : category
+                title : GetRowTitle(category)
                 children : []
             }
 
@@ -171,6 +171,20 @@ function GetSeasonData(seasons as Object) as Object
     end if
     
     return seasonsArray
+end function
+
+function GetRowTitle(category as Dynamic) as String
+    name = LCase(GetFeedString(category))
+
+    if name = "shortformvideos"
+        return "Shorts"
+    else if name = "series"
+        return "Series"
+    else if name = "movies"
+        return "Videos"
+    end if
+
+    return GetFeedString(category)
 end function
 
 function GetFeedString(value as Dynamic) as String
