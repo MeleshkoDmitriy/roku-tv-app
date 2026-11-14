@@ -1,6 +1,6 @@
 sub Init() 
     m.top.backgroundColor = "0x662D91"
-    m.top.backgroundUri = "pkg:/images/background.jpg"
+    m.top.backgroundUri = "pkg:/images/background_hd.jpg"
     m.loadingIndicator = m.top.FindNode("loadingIndicator")
     m.errorLabel = m.top.FindNode("errorLabel")
 

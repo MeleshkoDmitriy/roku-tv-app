@@ -15,7 +15,7 @@
             showOptions="false"
             showClock="false"
             logoUri="pkg:/images/hd_overhang_logo.png"
-            translation="[0, 60]"
+            translation="[60, 60]"
         />
         <Label
             id="loadingIndicator"
